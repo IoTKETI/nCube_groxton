@@ -263,7 +263,7 @@ function http_watchdog() {
     }
 }
 
-wdt.set_wdt(require('shortid').generate(), 2, http_watchdog);
+wdt.set_wdt(require('shortid').generate(), 1, http_watchdog);
 
 
 // for notification
