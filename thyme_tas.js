@@ -18,7 +18,7 @@ var SerialPort = require('serialport');
 var s_Dev_Port = null;
 exports.ready = function tas_ready () {
         // s_Dev_PortNum = '/dev/ttyAMA0';
-        s_Dev_PortNum = '/dev/ttyUSB3';
+        s_Dev_PortNum = '/dev/ttyUSB4';
         s_Dev_Baudrate = '38400';
         s_Dev_PortOpening();
 };
@@ -103,7 +103,7 @@ function s_Dev_PortData(data){
         console.log(serial_data);
         obj = payload_decode(serial_data);
         console.log(obj);
-        var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' + conf.cnt[0].name;
+        var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox_location.name+'/+ conf.cnt[0].name;
         sh_adn.crtci(parent, 0, JSON.stringify(obj), this, function (status, res_body, to) {
             console.log('x-m2m-rsc : ' + status + ' <----');
         });
