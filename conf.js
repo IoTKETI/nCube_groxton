@@ -27,18 +27,18 @@ var grox_location = {};
 conf.useprotocol = 'http'; // select one for 'http' or 'mqtt' or 'coap' or 'ws'
 
 // build cse
-cse.host        = '203.253.128.179';
-cse.port        = '7599';
-cse.name        = 'wdc_base';
-cse.id          = '/wdc_base';
+cse.host        = '203.253.128.161';
+cse.port        = '7579';
+cse.name        = 'Mobius';
+cse.id          = '/Mobius2';
 cse.mqttport    = '1883';
 cse.wsport      = '7577';
 
 // build ae
 ae.name         = 'schoolZone';
 
-// ae.id           = 'S' + ae.name;
-ae.id           = 'SM';
+ae.id           = 'S' + ae.name;
+// ae.id           = 'SM';
 
 ae.parent       = '/' + cse.name;
 ae.appid        = 'schoolZone';
@@ -50,6 +50,9 @@ grox_location.name = 'sujinES'
 
 // build cnt
 var count = 0;
+cnt_arr[count] = {};
+cnt_arr[count].parent = '/' + cse.name + '/' + ae.name;
+cnt_arr[count++].name = grox_location.name;
 cnt_arr[count] = {};
 cnt_arr[count].parent = '/' + cse.name + '/' + ae.name+'/'+grox_location.name;
 cnt_arr[count++].name = 'speedmeter';
