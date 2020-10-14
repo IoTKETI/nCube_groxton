@@ -14,13 +14,14 @@
 
 // for TAS
 var SerialPort = require('serialport');
-
+var payload = '';
 var s_Dev_Port = null;
 exports.ready = function tas_ready () {
         // s_Dev_PortNum = '/dev/ttyAMA0';
         s_Dev_PortNum = '/dev/ttyUSB4';
         s_Dev_Baudrate = '38400';
         s_Dev_PortOpening();
+        upload_payload();
 };
 function payload_decode(serial_data){
     var obj = {}
@@ -95,21 +96,37 @@ function s_Dev_PortError(error) {
 
     setTimeout(s_Dev_PortOpening, 2000);
 }
-
+function upload_payload(){
+    setInterval(function () {
+        if(payload !=''){
+            var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox_location.name+'/'+ conf.cnt[0].name;
+            sh_adn.crtci(parent, 0, JSON.stringify(obj), this, function (status, res_body, to) {
+                console.log('x-m2m-rsc : ' + status + ' <----');
+            });
+        }
+        else{
+            console.log("emtpy")
+        }
+    },1000);
+}
 function s_Dev_PortData(data){
     if(data.length >= 14) {
         serial_data = data.slice(0,10);
         serial_data = serial_data.toString('hex');
         console.log(serial_data);
-        obj = payload_decode(serial_data);
-        console.log(obj);
-        var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox_location.name+'/'+ conf.cnt[0].name;
-        sh_adn.crtci(parent, 0, JSON.stringify(obj), this, function (status, res_body, to) {
-            console.log('x-m2m-rsc : ' + status + ' <----');
-        });
+        payload = payload_decode(serial_data);
+
+        // obj = payload_decode(serial_data);
+        // console.log(obj);
+        // var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox_location.name+'/'+ conf.cnt[0].name;
+        // sh_adn.crtci(parent, 0, JSON.stringify(obj), this, function (status, res_body, to) {
+        //     console.log('x-m2m-rsc : ' + status + ' <----');
+        // });
     }
     serial_buffer = '';
 }
+
+
 
 var car_array = [];
 var human_array = [];

@@ -72,7 +72,7 @@ cnt_arr[count++].name = 'configure';
 // build sub
 count = 0;
 sub_arr[count] = {};
-sub_arr[count].parent = '/' + cse.name + '/' + ae.name + '/' + cnt_arr[1].name;
+sub_arr[count].parent = '/' + cse.name + '/' + ae.name + '/' +grox_location.name+'/'+ cnt_arr[2].name;
 sub_arr[count].name = 'sub_configure';
 sub_arr[count++].nu = 'mqtt://' + cse.host + '/' + ae.id;
 
