@@ -100,12 +100,13 @@ function upload_payload(){
     setInterval(function () {
         if(payload !=''){
             var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox_location.name+'/'+ conf.cnt[0].name;
-            sh_adn.crtci(parent, 0, JSON.stringify(obj), this, function (status, res_body, to) {
+            sh_adn.crtci(parent, 0, JSON.stringify(payload), this, function (status, res_body, to) {
                 console.log('x-m2m-rsc : ' + status + ' <----');
+                payload = '';
             });
         }
         else{
-            console.log("emtpy")
+//            console.log("emtpy")
         }
     },1000);
 }
@@ -113,7 +114,7 @@ function s_Dev_PortData(data){
     if(data.length >= 14) {
         serial_data = data.slice(0,10);
         serial_data = serial_data.toString('hex');
-        console.log(serial_data);
+  //      console.log(serial_data);
         payload = payload_decode(serial_data);
 
         // obj = payload_decode(serial_data);
