@@ -119,7 +119,7 @@ function status_upload(){
                 console.log('x-m2m-rsc : ' + status + ' <----');
                 payload = '';
             });
-    },120000);
+    },1800000);
 }
 function s_Dev_PortData(data){
     if(data.length >= 14) {
