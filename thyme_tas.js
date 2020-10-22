@@ -22,6 +22,7 @@ exports.ready = function tas_ready () {
         s_Dev_Baudrate = '38400';
         s_Dev_PortOpening();
         upload_payload();
+        status_upload();
 };
 function payload_decode(serial_data){
     var obj = {}
@@ -109,6 +110,16 @@ function upload_payload(){
 //            console.log("emtpy")
         }
     },1000);
+}
+function status_upload(){
+    setInterval(function () {
+            var status = 'running'
+            var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox_location.name+'/'+ conf.cnt[3].name;
+            sh_adn.crtci(parent, 0, status, this, function (status, res_body, to) {
+                console.log('x-m2m-rsc : ' + status + ' <----');
+                payload = '';
+            });
+    },120000);
 }
 function s_Dev_PortData(data){
     if(data.length >= 14) {
