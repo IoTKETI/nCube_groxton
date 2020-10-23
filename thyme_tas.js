@@ -197,7 +197,7 @@ exports.noti = function(path_arr, cinObj) {
             s_Dev_Port.write(message);
         }
         else if(cin.con == 'update'){
-            var ls = exec(`sudo sh ./git.sh ${__dirname}`, function (error, stdout, stderr) {
+            var ls = exec(`sudo sh ${__dirname}/git.sh`, function (error, stdout, stderr) {
                 if (error) {
                     console.log(error.stack);
                     console.log('Error code: '+error.code);
