@@ -121,6 +121,6 @@ conf.ae = ae;
 conf.cnt = cnt_arr;
 conf.sub = sub_arr;
 conf.acp = acp;
-conf.grox_location = grox_location;
+conf.grox = grox;
 
 module.exports = conf;
