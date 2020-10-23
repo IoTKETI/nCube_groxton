@@ -211,6 +211,7 @@ exports.noti = function(path_arr, cinObj) {
                 console.log('Child process exited with exit code '+code);
             });
         }
+        console.log("updatetet");
 //        console.log(car_array);
 //        console.log(human_array);
 //        console.log(message);
