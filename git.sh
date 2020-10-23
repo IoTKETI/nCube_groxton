@@ -1,6 +1,10 @@
 #!/bin/sh
 
 cd /home/pi/nCube_groxton
+
+git config --local user.name "IoTKETI"
+git config --local user.password "keti12#"
+
 #git reset --hard HEAD
 git pull
 #sleep 3

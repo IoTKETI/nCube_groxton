@@ -13,7 +13,7 @@
  */
 
 var ip = require("ip");
-
+var fs = require("fs");
 var conf = {};
 var cse = {};
 var ae = {};
@@ -46,21 +46,28 @@ ae.port         = '9727';
 ae.bodytype     = 'json'; // select 'json' or 'xml' or 'cbor'
 ae.tasport      = '3105';
 
-grox_location.name = 'sujinES'
+var grox = {};
+try {
+    grox = JSON.parse(fs.readFileSync('grox_location.json', 'utf8'));
+}
+catch (e) {
+    grox.location = 'sujinES'
+    fs.writeFileSync('grox_location.json', JSON.stringify(grox, null, 4), 'utf8');
+}
 
 // build cnt
 var count = 0;
 cnt_arr[count] = {};
 cnt_arr[count].parent = '/' + cse.name + '/' + ae.name;
-cnt_arr[count++].name = grox_location.name;
+cnt_arr[count++].name = grox.location;
 cnt_arr[count] = {};
-cnt_arr[count].parent = '/' + cse.name + '/' + ae.name+'/'+grox_location.name;
+cnt_arr[count].parent = '/' + cse.name + '/' + ae.name+'/'+grox.location;
 cnt_arr[count++].name = 'speedmeter';
 cnt_arr[count] = {};
-cnt_arr[count].parent = '/' + cse.name + '/' + ae.name+'/'+grox_location.name;
+cnt_arr[count].parent = '/' + cse.name + '/' + ae.name+'/'+grox.location;
 cnt_arr[count++].name = 'configure';
 cnt_arr[count] = {};
-cnt_arr[count].parent = '/' + cse.name + '/' + ae.name+'/'+grox_location.name;
+cnt_arr[count].parent = '/' + cse.name + '/' + ae.name+'/'+grox.location;
 cnt_arr[count++].name = 'status';
 // cnt_arr[count] = {};
 // cnt_arr[count].parent = '/' + cse.name + '/' + ae.name;
@@ -75,7 +82,7 @@ cnt_arr[count++].name = 'status';
 // build sub
 count = 0;
 sub_arr[count] = {};
-sub_arr[count].parent = '/' + cse.name + '/' + ae.name + '/' +grox_location.name+'/'+ cnt_arr[2].name;
+sub_arr[count].parent = '/' + cse.name + '/' + ae.name + '/' +grox.location+'/'+ cnt_arr[2].name;
 sub_arr[count].name = 'sub_configure';
 sub_arr[count++].nu = 'mqtt://' + cse.host + '/' + ae.id;
 
