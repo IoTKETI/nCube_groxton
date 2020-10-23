@@ -14,16 +14,44 @@
 
 // for TAS
 var SerialPort = require('serialport');
+
 var payload = '';
 var s_Dev_Port = null;
+var s_Dev_PortNum = undefined;
 exports.ready = function tas_ready () {
         // s_Dev_PortNum = '/dev/ttyAMA0';
-        s_Dev_PortNum = '/dev/ttyUSB4';
+
+        s_Dev_PortNum = serial_list();
+        // s_Dev_PortNum = '/dev/ttyUSB4';
         s_Dev_Baudrate = '38400';
         s_Dev_PortOpening();
         upload_payload();
         status_upload();
 };
+
+function serial_list(){
+    SerialPort.list(function (err, ports) {
+        ports.forEach(function(port) {
+            console.log(port.locationId);
+            if(port.locationId != 'undefined') {
+                var serialnum = port.comName
+                console.log('##########'+serialnum);
+                // s_Dev_PortNum = serialnum;
+                return serialnum
+            }
+            else{
+                // s_Dev_PortNum = 'dev/ttyUSB4';
+                return '/dev/ttyUSB4';
+            }
+
+            // if(port.locationID)
+            // console.log(port.comName);
+            // console.log(port.pnpId);
+            // console.log(port.manufacturer);
+        });
+    });
+}
+
 function payload_decode(serial_data){
     var obj = {}
     obj['device_id'] = serial_data.substring(4,6);
@@ -56,23 +84,31 @@ function payload_decode(serial_data){
 }
 
 function s_Dev_PortOpening() {
-    if (s_Dev_Port == null) {
-        s_Dev_Port = new SerialPort(s_Dev_PortNum, {
-            baudRate: parseInt(s_Dev_Baudrate, 10),
-        });
+    if(s_Dev_PortNum != undefined){
+        if (s_Dev_Port == null) {
 
-        s_Dev_Port.on('open', s_Dev_PortOpen);
-        s_Dev_Port.on('close', s_Dev_PortClose);
-        s_Dev_Port.on('error', s_Dev_PortError);
-        s_Dev_Port.on('data', s_Dev_PortData);
-    }
-    else {
-        if (s_Dev_Port.isOpen) {
+            s_Dev_Port = new SerialPort(s_Dev_PortNum, {
+                baudRate: parseInt(s_Dev_Baudrate, 10),
+            });
 
+            s_Dev_Port.on('open', s_Dev_PortOpen);
+            s_Dev_Port.on('close', s_Dev_PortClose);
+            s_Dev_Port.on('error', s_Dev_PortError);
+            s_Dev_Port.on('data', s_Dev_PortData);
         }
         else {
-            s_Dev_Port.open();
+            if (s_Dev_Port.isOpen) {
+
+            }
+            else {
+                s_Dev_Port.open();
+            }
         }
+    }
+    else{
+        console.log("123123");
+        // setTimeout(serial_list(), 2000);
+
     }
 }
 function s_Dev_PortOpen() {
@@ -82,7 +118,7 @@ function s_Dev_PortOpen() {
 function s_Dev_PortClose() {
     console.log('s_Dev_Port closed.');
 
-    setTimeout(s_Dev_PortOpening, 2000);
+    // setTimeout(s_Dev_PortOpening(), 2000);
 }
 
 function s_Dev_PortError(error) {
@@ -139,7 +175,7 @@ function s_Dev_PortData(data){
 }
 
 
-
+var { exec } = require('child_process');
 var car_array = [];
 var human_array = [];
 //var message ='';
@@ -197,7 +233,7 @@ exports.noti = function(path_arr, cinObj) {
             s_Dev_Port.write(message);
         }
         else if(cin.con == 'update'){
-            var ls = exec(`dir ${__dirname}`, function (error, stdout, stderr) {
+            var ls = exec(`sudo sh ./git.sh ${__dirname}`, function (error, stdout, stderr) {
                 if (error) {
                     console.log(error.stack);
                     console.log('Error code: '+error.code);
