@@ -10,6 +10,6 @@ git config --local user.password "keti12#"
 git pull
 #sleep 3
 sudo chmod 777 *
-sleep 2
+#sleep 2
 #python3 sw_gitpull.py&
-pm2 reload all
+#pm2 reload all
