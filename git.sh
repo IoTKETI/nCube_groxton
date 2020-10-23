@@ -12,4 +12,4 @@ git pull
 sudo chmod 777 *
 sleep 2
 #python3 sw_gitpull.py&
-pm2 reload thyme
+pm2 reload 'thyme'
