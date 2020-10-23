@@ -14,44 +14,16 @@
 
 // for TAS
 var SerialPort = require('serialport');
-
 var payload = '';
 var s_Dev_Port = null;
-var s_Dev_PortNum = undefined;
 exports.ready = function tas_ready () {
-        // s_Dev_PortNum = '/dev/ttyAMA0';
-
-        s_Dev_PortNum = serial_list();
-        // s_Dev_PortNum = '/dev/ttyUSB4';
-        s_Dev_Baudrate = '38400';
-        s_Dev_PortOpening();
-        upload_payload();
-        status_upload();
+    // s_Dev_PortNum = '/dev/ttyAMA0';
+    s_Dev_PortNum = '/dev/ttyUSB4';
+    s_Dev_Baudrate = '38400';
+    s_Dev_PortOpening();
+    upload_payload();
+    status_upload();
 };
-
-function serial_list(){
-    SerialPort.list(function (err, ports) {
-        ports.forEach(function(port) {
-            console.log(port.locationId);
-            if(port.locationId != 'undefined') {
-                var serialnum = port.comName
-                console.log('##########'+serialnum);
-                // s_Dev_PortNum = serialnum;
-                return serialnum
-            }
-            else{
-                // s_Dev_PortNum = 'dev/ttyUSB4';
-                return '/dev/ttyUSB4';
-            }
-
-            // if(port.locationID)
-            // console.log(port.comName);
-            // console.log(port.pnpId);
-            // console.log(port.manufacturer);
-        });
-    });
-}
-
 function payload_decode(serial_data){
     var obj = {}
     obj['device_id'] = serial_data.substring(4,6);
@@ -84,31 +56,23 @@ function payload_decode(serial_data){
 }
 
 function s_Dev_PortOpening() {
-    if(s_Dev_PortNum != undefined){
-        if (s_Dev_Port == null) {
+    if (s_Dev_Port == null) {
+        s_Dev_Port = new SerialPort(s_Dev_PortNum, {
+            baudRate: parseInt(s_Dev_Baudrate, 10),
+        });
 
-            s_Dev_Port = new SerialPort(s_Dev_PortNum, {
-                baudRate: parseInt(s_Dev_Baudrate, 10),
-            });
+        s_Dev_Port.on('open', s_Dev_PortOpen);
+        s_Dev_Port.on('close', s_Dev_PortClose);
+        s_Dev_Port.on('error', s_Dev_PortError);
+        s_Dev_Port.on('data', s_Dev_PortData);
+    }
+    else {
+        if (s_Dev_Port.isOpen) {
 
-            s_Dev_Port.on('open', s_Dev_PortOpen);
-            s_Dev_Port.on('close', s_Dev_PortClose);
-            s_Dev_Port.on('error', s_Dev_PortError);
-            s_Dev_Port.on('data', s_Dev_PortData);
         }
         else {
-            if (s_Dev_Port.isOpen) {
-
-            }
-            else {
-                s_Dev_Port.open();
-            }
+            s_Dev_Port.open();
         }
-    }
-    else{
-        console.log("123123");
-        // setTimeout(serial_list(), 2000);
-
     }
 }
 function s_Dev_PortOpen() {
@@ -118,7 +82,7 @@ function s_Dev_PortOpen() {
 function s_Dev_PortClose() {
     console.log('s_Dev_Port closed.');
 
-    // setTimeout(s_Dev_PortOpening(), 2000);
+    setTimeout(s_Dev_PortOpening, 2000);
 }
 
 function s_Dev_PortError(error) {
@@ -149,19 +113,19 @@ function upload_payload(){
 }
 function status_upload(){
     setInterval(function () {
-            var status = 'running'
-            var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox_location.name+'/'+ conf.cnt[3].name;
-            sh_adn.crtci(parent, 0, status, this, function (status, res_body, to) {
-                console.log('x-m2m-rsc : ' + status + ' <----');
-                payload = '';
-            });
+        var status = 'running'
+        var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox_location.name+'/'+ conf.cnt[3].name;
+        sh_adn.crtci(parent, 0, status, this, function (status, res_body, to) {
+            console.log('x-m2m-rsc : ' + status + ' <----');
+            payload = '';
+        });
     },1800000);
 }
 function s_Dev_PortData(data){
     if(data.length >= 14) {
         serial_data = data.slice(0,10);
         serial_data = serial_data.toString('hex');
-  //      console.log(serial_data);
+        //      console.log(serial_data);
         payload = payload_decode(serial_data);
 
         // obj = payload_decode(serial_data);
@@ -223,7 +187,7 @@ exports.noti = function(path_arr, cinObj) {
             human_array[6] = '0x00';
             human_array[7] = '0x00';
             human_array[8] = '0x70';
-            human_array[9] = '0x03';        
+            human_array[9] = '0x03';
             message = new Buffer.from(human_array,'hex');
             for(i = 0; i < human_array.length-2;i++){
                 hexsum = hexsum + message[i];
