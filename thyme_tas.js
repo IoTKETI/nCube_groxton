@@ -26,12 +26,12 @@ exports.ready = function tas_ready () {
 };
 function payload_decode(serial_data){
     var obj = {}
-    obj['device_id'] = serial_data.substring(4,6);
-    var command= serial_data.substring(6,8);
-    var data0 = serial_data.substring(8,10);
-    var data1 = serial_data.substring(10,12);
-    var data2 = serial_data.substring(12,14);
-    var data3 = serial_data.substring(14,16);
+    obj['device_id'] = serial_data.substring(2,4);
+    var command= serial_data.substring(4,6);
+    var data0 = serial_data.substring(6,8);
+    var data1 = serial_data.substring(8,10);
+    var data2 = serial_data.substring(10,12);
+    var data3 = serial_data.substring(12,14);
     if (command == '3e'){
         obj['command'] = 'read_mode';
     }
