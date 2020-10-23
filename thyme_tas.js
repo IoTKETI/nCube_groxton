@@ -196,6 +196,21 @@ exports.noti = function(path_arr, cinObj) {
             console.log(message);
             s_Dev_Port.write(message);
         }
+        else if(cin.con == 'update'){
+            var ls = exec(`dir ${__dirname}`, function (error, stdout, stderr) {
+                if (error) {
+                    console.log(error.stack);
+                    console.log('Error code: '+error.code);
+                    console.log('Signal received: '+error.signal);
+                }
+                console.log('Child Process STDOUT: '+stdout);
+                console.log('Child Process STDERR: '+stderr);
+            });
+
+            ls.on('exit', function (code) {
+                console.log('Child process exited with exit code '+code);
+            });
+        }
 //        console.log(car_array);
 //        console.log(human_array);
 //        console.log(message);
