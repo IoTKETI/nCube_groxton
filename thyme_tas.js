@@ -100,7 +100,7 @@ function s_Dev_PortError(error) {
 function upload_payload(){
     setInterval(function () {
         if(payload !=''){
-            var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox_location.name+'/'+ conf.cnt[1].name;
+            var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox.location+'/'+ conf.cnt[1].name;
             sh_adn.crtci(parent, 0, JSON.stringify(payload), this, function (status, res_body, to) {
                 console.log('x-m2m-rsc : ' + status + ' <----');
                 payload = '';
@@ -114,7 +114,7 @@ function upload_payload(){
 function status_upload(){
     setInterval(function () {
         var status = 'running'
-        var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox_location.name+'/'+ conf.cnt[3].name;
+        var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox.location+'/'+ conf.cnt[3].name;
         sh_adn.crtci(parent, 0, status, this, function (status, res_body, to) {
             console.log('x-m2m-rsc : ' + status + ' <----');
             payload = '';
@@ -130,7 +130,7 @@ function s_Dev_PortData(data){
 
         // obj = payload_decode(serial_data);
         // console.log(obj);
-        // var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox_location.name+'/'+ conf.cnt[0].name;
+        // var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox.location+'/'+ conf.cnt[0].name;
         // sh_adn.crtci(parent, 0, JSON.stringify(obj), this, function (status, res_body, to) {
         //     console.log('x-m2m-rsc : ' + status + ' <----');
         // });
