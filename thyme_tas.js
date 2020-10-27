@@ -25,6 +25,7 @@ exports.ready = function tas_ready () {
 };
 function payload_decode(serial_data){
     var obj = {}
+    console.log(serial_data);
     obj['device_id'] = serial_data.substring(2,4);
     var command= serial_data.substring(4,6);
     var data0 = serial_data.substring(6,8);
@@ -101,7 +102,7 @@ function upload_payload(){
         if(payload !=''){
             var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox.location+'/'+ conf.cnt[1].name;
             sh_adn.crtci(parent, 0, JSON.stringify(payload), this, function (status, res_body, to) {
-                console.log('x-m2m-rsc : ' + status + ' <----');
+//                 console.log('x-m2m-rsc : ' + status + ' <----');
                 payload = '';
             });
         }
