@@ -32,6 +32,7 @@ function payload_decode(serial_data){
     var data1 = serial_data.substring(8,10);
     var data2 = serial_data.substring(10,12);
     var data3 = serial_data.substring(12,14);
+    obj['s_data'] = serial_data;
     if (command == '3e'){
         obj['command'] = 'read_mode';
     }
@@ -122,7 +123,7 @@ function status_upload(){
     },1800000);
 }
 function s_Dev_PortData(data){
-    if(data.length >= 14) {
+    if(data.length >= 12) {
         serial_data = data.slice(0,10);
         serial_data = serial_data.toString('hex');
         //      console.log(serial_data);
