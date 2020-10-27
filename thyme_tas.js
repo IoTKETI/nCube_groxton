@@ -17,7 +17,7 @@ var SerialPort = require('serialport');
 var payload = '';
 var s_Dev_Port = null;
 exports.ready = function tas_ready () {
-    s_Dev_PortNum = '/dev/ttyAMA0';
+    s_Dev_PortNum = '/dev/ttyUSB3';
     s_Dev_Baudrate = '38400';
     s_Dev_PortOpening();
     upload_payload();
