@@ -78,10 +78,10 @@ function ready_for_notification() {
                 if (url.parse(conf.sub[i].nu).protocol === 'mqtt:') {
                     if (url.parse(conf.sub[i]['nu']).hostname === 'autoset') {
                         conf.sub[i]['nu'] = 'mqtt://' + conf.cse.host + '/' + conf.ae.id;
-                        noti_topic = util.format('/oneM2M/req/+/%s/#', conf.ae.id);
+                        noti_topic = util.format('/oneM2M/req/+/%s/#', conf.grox.location);
                     }
                     else if (url.parse(conf.sub[i]['nu']).hostname === conf.cse.host) {
-                        noti_topic = util.format('/oneM2M/req/+/%s/#', conf.ae.id);
+                        noti_topic = util.format('/oneM2M/req/+/%s/#', conf.grox.location);
                     }
                     else {
                         noti_topic = util.format('%s', url.parse(conf.sub[i].nu).pathname);
@@ -89,6 +89,7 @@ function ready_for_notification() {
                 }
             }
         }
+        console.log(noti_topic);
         mqtt_connect(conf.cse.host, noti_topic);
     }
 }
@@ -327,8 +328,7 @@ function mqtt_connect(serverip, noti_topic) {
         if(topic_arr[5] != null) {
             bodytype = (topic_arr[5] === 'xml') ? topic_arr[5] : ((topic_arr[5] === 'json') ? topic_arr[5] : ((topic_arr[5] === 'cbor') ? topic_arr[5] : 'json'));
         }
-
-        if(topic_arr[1] === 'oneM2M' && topic_arr[2] === 'req' && topic_arr[4] === conf.ae.id) {
+        if(topic_arr[1] === 'oneM2M' && topic_arr[2] === 'req' && topic_arr[4] === conf.grox.location) {
             console.log(message.toString());
             if(bodytype === 'xml') {
                 var parser = new xml2js.Parser({explicitArray: false});
