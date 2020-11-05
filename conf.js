@@ -27,7 +27,7 @@ var grox_location = {};
 conf.useprotocol = 'http'; // select one for 'http' or 'mqtt' or 'coap' or 'ws'
 
 // build cse
-cse.host        = '203.253.128.161';
+cse.host        = '203.253.128.164';
 cse.port        = '7579';
 cse.name        = 'Mobius';
 cse.id          = '/Mobius2';
@@ -35,13 +35,13 @@ cse.mqttport    = '1883';
 cse.wsport      = '7577';
 
 // build ae
-ae.name         = 'yungitest';
+ae.name         = 'schoolZone';
 
 ae.id           = 'S' + ae.name;
 // ae.id           = 'SM';
 
 ae.parent       = '/' + cse.name;
-ae.appid        = 'yungitest';
+ae.appid        = 'schoolZone';
 ae.port         = '9727';
 ae.bodytype     = 'json'; // select 'json' or 'xml' or 'cbor'
 ae.tasport      = '3105';
