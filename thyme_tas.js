@@ -23,7 +23,7 @@ exports.ready = function tas_ready () {
     upload_payload();
     status_upload();
 };
-function payload_decode(serial_data,raw_data){
+function payload_decode(serial_data){
     var obj = {}
     console.log(serial_data);
     obj['device_id'] = serial_data.substring(2,4);
@@ -33,7 +33,6 @@ function payload_decode(serial_data,raw_data){
     var data2 = serial_data.substring(10,12);
     var data3 = serial_data.substring(12,14);
     obj['s_data'] = serial_data;
-    obj['raw_data'] = raw_data;
     if (command == '3e'){
         obj['command'] = 'read_mode';
     }
@@ -126,11 +125,10 @@ function status_upload(){
 
 function s_Dev_PortData(data){
     if(data.length >= 12) {
-        var raw_Datw = data
         serial_data = data.slice(0,10);
         serial_data = serial_data.toString('hex');
         //      console.log(serial_data);
-        payload = payload_decode(serial_data, data);
+        payload = payload_decode(serial_data);
 
         // obj = payload_decode(serial_data);
         // console.log(obj);
@@ -201,7 +199,7 @@ exports.noti = function(path_arr, cinObj) {
             s_Dev_Port.write(message);
         }
         else if(cin.con == 'update'){
-            var ls = exec(`sudo sh ${__dirname}/git.sh`, function (error, stdout, stderr) {
+            var git = exec(`sudo sh ${__dirname}/git.sh`, function (error, stdout, stderr) {
                 if (error) {
                     console.log(error.stack);
                     console.log('Error code: '+error.code);
@@ -211,7 +209,22 @@ exports.noti = function(path_arr, cinObj) {
                 console.log('Child Process STDERR: '+stderr);
             });
 
-            ls.on('exit', function (code) {
+            git.on('exit', function (code) {
+                console.log('Child process exited with exit code '+code);
+            });
+        }
+        else if(cin.con == 'reboot'){
+            var reboot = exec(`sudo reboot`, function (error, stdout, stderr) {
+                if (error) {
+                    console.log(error.stack);
+                    console.log('Error code: '+error.code);
+                    console.log('Signal received: '+error.signal);
+                }
+                console.log('Child Process STDOUT: '+stdout);
+                console.log('Child Process STDERR: '+stderr);
+            });
+
+            reboot.on('exit', function (code) {
                 console.log('Child process exited with exit code '+code);
             });
         }
