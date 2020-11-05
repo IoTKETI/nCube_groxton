@@ -35,13 +35,13 @@ cse.mqttport    = '1883';
 cse.wsport      = '7577';
 
 // build ae
-ae.name         = 'schoolZone';
+ae.name         = 'yungitest';
 
 ae.id           = 'S' + ae.name;
 // ae.id           = 'SM';
 
 ae.parent       = '/' + cse.name;
-ae.appid        = 'schoolZone';
+ae.appid        = 'yungitest';
 ae.port         = '9727';
 ae.bodytype     = 'json'; // select 'json' or 'xml' or 'cbor'
 ae.tasport      = '3105';
@@ -84,7 +84,7 @@ count = 0;
 sub_arr[count] = {};
 sub_arr[count].parent = '/' + cse.name + '/' + ae.name + '/' +grox.location+'/'+ cnt_arr[2].name;
 sub_arr[count].name = 'sub_configure';
-sub_arr[count++].nu = 'mqtt://' + cse.host + '/' + ae.id;
+sub_arr[count++].nu = 'mqtt://' + cse.host + '/' + grox.location;
 
 // --------
 // sub_arr[count] = {};
