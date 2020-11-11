@@ -114,7 +114,7 @@ function upload_payload(){
         else{
 //            console.log("emtpy")
         }
-    },500);
+    },1000);
 }
 function status_upload(){
     setInterval(function () {
@@ -122,16 +122,16 @@ function status_upload(){
         var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox.location+'/'+ conf.cnt[3].name;
         sh_adn.crtci(parent, 0, status, this, function (status, res_body, to) {
             // console.log('x-m2m-rsc : ' + status + ' <----');
+            payload = '';
         });
     },1800000);
 }
 var s_Devstr = '';
 function s_Dev_PortData(data){
-    s_Devstr += hex(data);
-    payload = s_Devstr;
-    if(s_Devstr.length >= 12) {
-        stx = s_Devstr.substring(0,2);
-        payload= stx;
+    // s_Devstr += hex(data);
+    if(data.length >= 12) {
+        stx = data.slice(0,2);
+        payload = stx;
         if(stx == '02'){
         serial_data = data.slice(0,10);
         serial_data = serial_data.toString('hex');
