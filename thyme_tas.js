@@ -129,7 +129,7 @@ function status_upload(){
 }
 var s_Devstr = '';
 function s_Dev_PortData(data){
-    s_Devstr += hex(data);
+    // s_Devstr += hex(data);
     if(data.length >= 14) {
         stx = data.slice(0,2);
         payload = stx;
