@@ -126,24 +126,17 @@ function status_upload(){
         });
     },1800000);
 }
-var s_Devstr = '';
+
+
 function s_Dev_PortData(data){
-    // s_Devstr += hex(data);
     if(data.length >= 12) {
         stx = data.slice(0,1);
-        payload = stx.toString('hex');
-        if(stx == '02'){
-        serial_data = data.slice(0,10);
-        serial_data = serial_data.toString('hex');
-        //      console.log(serial_data);
-        payload = payload_decode(serial_data);
-        // payload = data;
-        // obj = payload_decode(serial_data);
-        // console.log(obj);
-        // var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox.location+'/'+ conf.cnt[0].name;
-        // sh_adn.crtci(parent, 0, JSON.stringify(obj), this, function (status, res_body, to) {
-        //     console.log('x-m2m-rsc : ' + status + ' <----');
-        // });
+        stx = stx.toString('hex');
+        if(stx === "02"){
+            serial_data = data.slice(0,10);
+            serial_data = serial_data.toString('hex');
+            payload = serial_data;
+            // payload = payload_decode(serial_data);
         }
     }
     serial_buffer = '';
