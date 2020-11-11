@@ -130,7 +130,7 @@ var s_Devstr = '';
 function s_Dev_PortData(data){
     // s_Devstr += hex(data);
     if(data.length >= 12) {
-        stx = data.slice(0,2);
+        stx = data.slice(0,1);
         payload = stx.toString('hex');
         if(stx == '02'){
         serial_data = data.slice(0,10);
