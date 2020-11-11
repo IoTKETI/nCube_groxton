@@ -27,7 +27,7 @@ var grox_location = {};
 conf.useprotocol = 'http'; // select one for 'http' or 'mqtt' or 'coap' or 'ws'
 
 // build cse
-cse.host        = '203.253.128.164';
+cse.host        = '203.253.128.161';
 cse.port        = '7579';
 cse.name        = 'Mobius';
 cse.id          = '/Mobius2';
