@@ -23,7 +23,7 @@ exports.ready = function tas_ready () {
     upload_payload();
     status_upload();
 };
-function payload_decode(serial_data,raw_data){
+function payload_decode(serial_data){
     var obj = {}
     obj['device_id'] = serial_data.substring(4,6);
     var command= serial_data.substring(6,8);
@@ -32,7 +32,6 @@ function payload_decode(serial_data,raw_data){
     var data2 = serial_data.substring(12,14);
     var data3 = serial_data.substring(14,16);
     obj['s_data'] = serial_data;
-    obj['console'] = raw_data;
     if (command == '3e'){
         obj['command'] = 'read_mode';
     }
@@ -130,14 +129,13 @@ function status_upload(){
 var s_Devstr = '';
 function s_Dev_PortData(data){
     // s_Devstr += hex(data);
-    if(data.length >= 14) {
+    if(data.length >= 12) {
         stx = data.slice(0,2);
-        payload = stx;
         if(stx = '02'){
         serial_data = data.slice(0,10);
         serial_data = serial_data.toString('hex');
         //      console.log(serial_data);
-        payload = payload_decode(serial_data,stx);
+        payload = payload_decode(serial_data);
         // payload = data;
         // obj = payload_decode(serial_data);
         // console.log(obj);
