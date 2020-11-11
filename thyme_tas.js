@@ -122,7 +122,6 @@ function status_upload(){
         var parent = '/' + conf.cse.name + '/' + conf.ae.name + '/' +conf.grox.location+'/'+ conf.cnt[3].name;
         sh_adn.crtci(parent, 0, status, this, function (status, res_body, to) {
             // console.log('x-m2m-rsc : ' + status + ' <----');
-            payload = '';
         });
     },1800000);
 }
