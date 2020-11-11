@@ -135,8 +135,8 @@ function s_Dev_PortData(data){
         if(stx === "02"){
             serial_data = data.slice(0,10);
             serial_data = serial_data.toString('hex');
-            payload = serial_data;
-            // payload = payload_decode(serial_data);
+            // payload = serial_data;
+            payload = payload_decode(serial_data);
         }
     }
     serial_buffer = '';
