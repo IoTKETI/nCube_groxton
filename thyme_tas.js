@@ -128,6 +128,7 @@ function status_upload(){
 var s_Devstr = '';
 function s_Dev_PortData(data){
     s_Devstr += hex(data);
+    payload = s_Devstr;
     if(s_Devstr.length >= 12) {
         stx = s_Devstr.substring(0,2);
         payload= stx;
