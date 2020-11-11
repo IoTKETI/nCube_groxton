@@ -128,10 +128,10 @@ function status_upload(){
 }
 var s_Devstr = '';
 function s_Dev_PortData(data){
-    // s_Devstr += hex(data);
-    if(data.length >= 12) {
-        stx = data.slice(0,2);
-        payload= stx.toString();
+    s_Devstr += hex(data);
+    if(s_Devstr.length >= 12) {
+        stx = data.substr(0,2);
+        payload= stx;
         if(stx == '02'){
         serial_data = data.slice(0,10);
         serial_data = serial_data.toString('hex');
