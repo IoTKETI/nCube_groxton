@@ -132,7 +132,7 @@ function s_Dev_PortData(data){
     if(data.length >= 12) {
         stx = data.slice(0,2);
         typedata = typeof(stx);
-        payload= typedata;
+        payload= typedata.toString();
         if(stx == '02'){
         serial_data = data.slice(0,10);
         serial_data = serial_data.toString('hex');
