@@ -34,7 +34,6 @@ function payload_decode(serial_data,raw_data){
     var data3 = serial_data.substring(12,14);
     obj['s_data'] = serial_data;
     obj['raw_data'] = raw_data;
-    console.log("123");
     if (command == '3e'){
         obj['command'] = 'read_mode';
     }
