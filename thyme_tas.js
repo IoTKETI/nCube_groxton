@@ -25,15 +25,14 @@ exports.ready = function tas_ready () {
 };
 function payload_decode(serial_data,raw_data){
     var obj = {}
-    console.log(serial_data);
-    obj['device_id'] = serial_data.substring(2,4);
-    var command= serial_data.substring(4,6);
-    var data0 = serial_data.substring(6,8);
-    var data1 = serial_data.substring(8,10);
-    var data2 = serial_data.substring(10,12);
-    var data3 = serial_data.substring(12,14);
+    obj['device_id'] = serial_data.substring(4,6);
+    var command= serial_data.substring(6,8);
+    var data0 = serial_data.substring(8,10);
+    var data1 = serial_data.substring(10,12);
+    var data2 = serial_data.substring(12,14);
+    var data3 = serial_data.substring(14,16);
     obj['s_data'] = serial_data;
-    obj['raw_data'] = raw_data;
+    obj['console'] = raw_data;
     if (command == '3e'){
         obj['command'] = 'read_mode';
     }
@@ -123,13 +122,15 @@ function status_upload(){
         });
     },1800000);
 }
-
+var s_Devstr = '';
 function s_Dev_PortData(data){
+    s_Devstr += hex(data);
+
     if(data.length >= 12) {
         serial_data = data.slice(0,10);
         serial_data = serial_data.toString('hex');
         //      console.log(serial_data);
-        payload = payload_decode(serial_data,data);
+        payload = payload_decode(serial_data,s_Devstr);
 
         // obj = payload_decode(serial_data);
         // console.log(obj);
